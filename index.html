@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Donation</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        header {
+            background-color: #d32f2f;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        section {
+            padding: 20px;
+            margin: 20px;
+        }
+
+        .quote {
+            font-size: 1.5em;
+            color: #d32f2f;
+            font-style: italic;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            margin: 10px 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #d32f2f;
+            color: white;
+        }
+
+        .btn {
+            background-color: #d32f2f;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 10px;
+        }
+
+        #blood-image {
+            max-width: 100%;
+            animation: fadeIn 3s;
+        }
+
+        .body-changes {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .body-changes h3 {
+            color: #d32f2f;
+            margin-bottom: 20px;
+        }
+
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .step {
+            text-align: center;
+            width: 30%;
+        }
+
+        .step img {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .step p {
+            margin-top: 10px;
+            color: #333;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            0% { transform: translateY(30px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Centering Buttons */
+        .buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Sliding and Fading Effect for Quotes */
+        .quote-container {
+            position: relative;
+            overflow: hidden;
+            height: 100px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .quote-list {
+            display: flex;
+            flex-direction: column;
+            animation: slideUp 3s ease-in-out infinite;
+        }
+
+        .quote-list p {
+            font-size: 1.5em;
+            color: #d32f2f;
+            font-style: italic;
+            text-align: center;
+            margin: 10px 0;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+        }
+
+        .quote-list p:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .quote-list p:nth-child(2) {
+            animation-delay: 2s;
+        }
+
+        .quote-list p:nth-child(3) {
+            animation-delay: 5s;
+        }
+
+        /* New styles for the image beside the "Why Donate Blood?" section */
+        .reasons-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .reasons-content ul {
+            width: 50%;
+            margin: 0;
+        }
+        .buttons-right {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.buttons-right .btn {
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+}
+
+     /* Remove space between text and image */
+        .reasons-content img {
+            margin-left: 0;
+            margin-right: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Blood Donation</h1>
+        <p>Save lives by donating blood!</p>
+    </header>
+
+    <!-- Centered Buttons Section -->
+    <section class="buttons">
+        <a href="Registration.html" class="btn">Register to Donate</a>
+        <a href="finddonor.html" class="btn">Find a Donor</a>
+        <!-- New Benefits Button -->
+        <a href="benifit.html" class="btn">Benefits</a>
+    </section>
+
+    <section class="intro">
+        <img src="https://spshospitals.com/wp-content/uploads/2022/08/Blood-Bank.gif" alt="Blood Donation Image" id="blood-image" align="center">
+        <p class="quote">"Give blood, give life."</p>
+    </section>
+
+    <section class="quote-container">
+        <div class="quote-list">
+            <p>"One donation can save up to three lives."</p>
+            <p>"Donate blood. Help save a life."</p>
+            <p>"Your blood can give someone another chance at life."</p>
+        </div>
+    </section>
+
+    <!-- Why Donate Blood Section -->
+    <section class="reasons">
+        <h2>Why Donate Blood?</h2>
+        <div class="reasons-content">
+            <ul>
+                <li>It saves lives!</li>
+                <li>It helps people with medical conditions like cancer, anemia, etc.</li>
+                <li>It boosts your health and gives you a sense of satisfaction.</li>
+            </ul>
+            <!-- New Buttons Section on the Right -->
+        <div class="buttons-right">
+            <a href="realmon.html" class="btn">Real Time Monitoring</a>
+            <a href="h.html" class="btn">How to Donate Blood</a>
+            <a href="s.html" class="btn">Nearby Blood Donation Centers</a>
+        </div>
+        </div>
+    </section>
+
+    <section class="body-changes">
+        <h3>What Happens Inside Your Body After Blood Donation?</h3>
+        <div class="steps">
+            <div class="step">
+                <img src="https://leemarcusmd.com/wp-content/uploads/2015/10/BLOOD-DRAWING.jpg" alt="Step 1: Blood Is Drawn">
+                <p><strong>Step 1:</strong> Blood is drawn from your body, which takes just a few minutes.</p>
+            </div>
+            <div class="step">
+                <img src="https://media1.tenor.com/m/YOXwrZ1xxxgAAAAd/red-blood-cells-national-geographic.gif" alt="Step 2: Blood Cells Regenerate">
+                <p><strong>Step 2:</strong> Your body starts to regenerate the lost blood cells within hours, and full recovery usually takes a few weeks.</p>
+            </div>
+            <div class="step">
+                <img src="https://i.makeagif.com/media/3-22-2023/pxqSYa.gif" alt="Step 3: Health Benefits">
+                <p><strong>Step 3:</strong> After donation, you'll feel good knowing you've helped someone in need, and your health may improve due to the regenerative process.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Blood donation is a noble cause. <span>&#10084;</span></p>
+    </footer>
+
+    <script>
+        // Script to handle the registration form submission
+        document.getElementById('registration-form')?.addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Registration Successful!');
+            document.getElementById('registration-form').reset();
+        });
+
+        // Dummy donor search function
+        function findDonor() {
+            var bloodGroup = document.getElementById('blood-group-search').value;
+            var resultsDiv = document.getElementById('donor-results');
+            if(bloodGroup) {
+                resultsDiv.innerHTML = `<p>Searching for blood donors with blood group: <strong>${bloodGroup}</strong></p>`;
+                resultsDiv.innerHTML += `<p>No donors found in your area.</p>`;
+            } else {
+                resultsDiv.innerHTML = `<p>Please enter a blood group to search.</p>`;
+            }
+        }
+    </script>
+
+</body>
+</html>

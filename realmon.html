@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Donation Monitoring</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        section {
+            margin: 20px 0;
+        }
+
+        /* Table styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Real-Time Blood Donation Monitoring</h1>
+        
+        <!-- Blood Inventory Section -->
+        <section>
+            <h2>Blood Inventory</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Blood Type</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
+                <tbody id="inventory-body">
+                    <!-- Inventory data dynamically generated here -->
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <script>
+        // Load inventory from localStorage
+        let inventory = JSON.parse(localStorage.getItem('inventory')) || {
+            "A+": 0, "A-": 0, "B+": 0, "B-": 0, "AB+": 0, "AB-": 0, "O+": 0, "O-": 0
+        };
+
+        // DOM Elements
+        const inventoryBody = document.getElementById("inventory-body");
+
+        // Function to update the inventory table
+        function updateInventoryTable() {
+            inventoryBody.innerHTML = "";
+            for (const [bloodType, quantity] of Object.entries(inventory)) {
+                const row = `<tr>
+                                <td>${bloodType}</td>
+                                <td>${quantity}</td>
+                             </tr>`;
+                inventoryBody.insertAdjacentHTML("beforeend", row);
+            }
+        }
+
+        // Initial UI Update
+        updateInventoryTable();
+    </script>
+</body>
+</html>

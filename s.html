@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Nearby Blood Donation Centers</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: crimson;
+            text-align: center;
+        }
+        .filter-container, .table-container {
+            max-width: 800px;
+            margin: 20px auto;
+        }
+        .filter-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        label {
+            font-weight: bold;
+        }
+        select, input, button {
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: crimson;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: darkred;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="btn">home</a>
+    <h1>Find Nearby Blood Donation Centers</h1>
+    <div class="filter-container">
+        <label for="latitude">Enter Your Latitude:</label>
+        <input type="text" id="latitude" placeholder="e.g., 28.6139" aria-describedby="latitudeError">
+        <span id="latitudeError" class="error"></span>
+
+        <label for="longitude">Enter Your Longitude:</label>
+        <input type="text" id="longitude" placeholder="e.g., 77.2090" aria-describedby="longitudeError">
+        <span id="longitudeError" class="error"></span>
+
+        <label for="country">Select Country:</label>
+        <select id="country">
+            <option value="">-- Select Country --</option>
+            <option value="India">India</option>
+            <option value="USA">USA</option>
+            <option value="UK">UK</option>
+            <option value="Canada">Canada</option>
+            <option value="Australia">Australia</option>
+        </select>
+        
+        <label for="state">Select State:</label>
+        <select id="state" disabled>
+            <option value="">-- Select State --</option>
+        </select>
+        <button id="findCenters" aria-label="Find nearby blood donation centers">Find Nearby Centers</button>
+    </div>
+
+    <div class="table-container">
+        <table id="centersTable">
+            <thead>
+                <tr>
+                    <th>Center Name</th>
+                    <th>Distance (km)</th>
+                    <th>State</th>
+                    <th>Country</th>
+                    <th>Location</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Table rows will be added dynamically -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const bloodDonationCenters = {
+            "India": [
+                { name: "Red Cross Blood Center", latitude: 16.5064, longitude: 80.6480, state: "Andhra Pradesh", location: "Vijayawada", country: "India" },
+                { name: "Telangana Blood Bank", latitude: 17.3850, longitude: 78.4867, state: "Telangana", location: "Hyderabad", country: "India" },
+                { name: "Life Blood Donor Center", latitude: 4.0987, longitude: 60.4867, state: "Telangana", location: "Warangal", country: "India" },
+                { name: "Karnataka Blood Donation Center", latitude: 12.9716, longitude: 77.5946, state: "Karnataka", location: "Bangalore", country: "India" },
+                { name: "Life Line Blood Bank", latitude: 16.3870, longitude: 56.4867, state: "Karnataka", location: "Mysore", country: "India" },
+                { name: "Gujarat Blood Bank", latitude: 23.0225, longitude: 72.5714, state: "Gujarat", location: "Ahmedabad", country: "India" },
+                { name: "Tamil Nadu Blood Bank", latitude: 13.0827, longitude: 80.2707, state: "Tamil Nadu", location: "Chennai", country: "India" },
+                { name: "Madurai Blood Donation Center", latitude: 18.3850, longitude: 58.4867, state: "Tamil Nadu", location: "Madurai", country: "India" },
+                { name: "Delhi Red Cross Society", latitude: 28.6139, longitude: 77.2090, state: "Delhi", location: "New Delhi", country: "India" },
+                { name: "NCR Blood Bank", latitude: 13.3850, longitude: 62.4867, state: "Delhi", location: "Noida", country: "India" },
+                { name: "Maharashtra Blood Bank", latitude: 19.0760, longitude: 72.8777, state: "Maharashtra", location: "Mumbai", country: "India" }
+            ],
+             "USA": [
+                { name: "American Red Cross", latitude: 34.0522, longitude: -118.2437, state: "California", location: "Los Angeles", country: "USA" },
+                { name: "New York Blood Center", latitude: 40.7128, longitude: -74.0060, state: "New York", location: "New York City", country: "USA" },
+                { name: "Houston Blood Bank", latitude: 29.7604, longitude: -95.3698, state: "Texas", location: "Houston", country: "USA" },
+                { name: "Chicago Blood Donation Center", latitude: 41.8781, longitude: -87.6298, state: "Illinois", location: "Chicago", country: "USA" },
+                { name: "Seattle Blood Bank", latitude: 47.6062, longitude: -122.3321, state: "Washington", location: "Seattle", country: "USA" },
+                { name: "Texas Blood Bank", latitude: 29.7604, longitude: -95.3698, state: "Texas", location: "Houston", country: "USA" }
+            ],
+            "UK": [
+                { name: "London Blood Donation Center", latitude: 51.5074, longitude: -0.1278, state: "England", location: "London", country: "UK" },
+                { name: "British Red Cross", latitude: 51.5074, longitude: -0.1278, state: "England", location: "London", country: "UK"  },
+                { name: "Manchester Blood Bank", latitude: 53.4808, longitude: -2.2426, state: "England", location: "Manchester", country: "UK"  },
+                { name: "Liverpool Blood Center", latitude: 53.4084, longitude: -2.9916, state: "England", location: "Liverpool", country: "UK"  }
+            ],
+            "Canada": [
+                { name: "Toronto Blood Donation Center", latitude: 43.6511, longitude: -79.3832, state: "Ontario", location: "Toronto", country: "Canada" },
+                { name: "Canadian Blood Services", latitude: 43.6511, longitude: -79.3832, state: "Ontario", location: "Toronto", country: "Canada"  },
+                { name: "BC Blood Bank", latitude: 49.2827, longitude: -123.1207, state: "British Columbia", location: "Vancouver", country: "Canada" },
+                { name: "Quebec Blood Donation Center", latitude: 45.5017, longitude: -73.5673, state: "Quebec", location: "Montreal", country: "Canada" }
+            ],
+            "Australia": [
+                { name: "Sydney Blood Donation Center", latitude: -33.8688, longitude: 151.2093, state: "New South Wales", location: "Sydney", country: "Australia"  },
+                { name: "Australian Red Cross", latitude: -33.8688, longitude: 151.2093, state: "New South Wales", location: "Sydney",country: "Australian"  },
+                { name: "Melbourne Blood Bank", latitude: -37.8136, longitude: 144.9631, state: "Victoria", location: "Melbourne", country: "Australia"  },
+                { name: "Perth Blood Donation Center", latitude: -31.9505, longitude: 115.8605, state: "Western Australia", location: "Perth", country: "Australia"  }
+            ]
+        };
+         
+        function updateStateOptions() {
+            const country = document.getElementById("country").value;
+            const stateDropdown = document.getElementById("state");
+
+            if (country) {
+                const states = bloodDonationCenters[country] || [];
+                const stateOptions = [...new Set(states.map(center => center.state))];
+                stateDropdown.innerHTML = "<option value=''>-- Select State --</option>";
+
+                stateOptions.forEach(state => {
+                    const option = document.createElement("option");
+                    option.value = state;
+                    option.textContent = state;
+                    stateDropdown.appendChild(option);
+                });
+
+                stateDropdown.disabled = false;
+            } else {
+                stateDropdown.disabled = true;
+            }
+        }
+
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371; // Radius of the Earth in km
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c; // Distance in km
+        }
+
+        function validateInputs() {
+    const latitude = document.getElementById("latitude").value;
+    const longitude = document.getElementById("longitude").value;
+    let isValid = true;
+
+    // Validate latitude
+    if (isNaN(latitude) || latitude === "") {
+        document.getElementById("latitudeError").textContent = "Please enter a valid latitude.";
+        isValid = false;
+    } else if (latitude < -90 || latitude > 90) {
+        document.getElementById("latitudeError").textContent = "Latitude must be between -90 and 90.";
+        isValid = false;
+    } else {
+        document.getElementById("latitudeError").textContent = "";
+    }
+
+    // Validate longitude
+    if (isNaN(longitude) || longitude === "") {
+        document.getElementById("longitudeError").textContent = "Please enter a valid longitude.";
+        isValid = false;
+    } else if (longitude < -180 || longitude > 180) {
+        document.getElementById("longitudeError").textContent = "Longitude must be between -180 and 180.";
+        isValid = false;
+    } else {
+        document.getElementById("longitudeError").textContent = "";
+    }
+
+    return isValid;
+}
+         function redirectToMap() {
+            const stateSelect = document.getElementById("stateSelect");
+            const selectedLocation = stateSelect.value;
+            
+            // Redirect to showmap.html with the selected location as a query parameter
+            window.location.href = `showmap.html?state=${selectedLocation}`;
+            
+        }
+        function displayCenters() {
+    if (!validateInputs()) return;
+
+    const latitude = parseFloat(document.getElementById("latitude").value);
+    const longitude = parseFloat(document.getElementById("longitude").value);
+    const country = document.getElementById("country").value;
+    const state = document.getElementById("state").value;
+
+    if (!country || !state) {
+        alert("Please select both country and state.");
+        return;
+    }
+
+    const centers = bloodDonationCenters[country].filter(center => center.state === state);
+    const results = centers.map(center => ({
+        ...center,
+        distance: calculateDistance(latitude, longitude, center.latitude, center.longitude)
+    }));
+
+    results.sort((a, b) => a.distance - b.distance);
+
+    const tableBody = document.getElementById("centersTable").getElementsByTagName("tbody")[0];
+    tableBody.innerHTML = "";
+
+    results.forEach(center => {
+        const row = tableBody.insertRow();
+        row.insertCell(0).textContent = center.name;
+        row.insertCell(1).textContent = center.distance.toFixed(2);
+        row.insertCell(2).textContent = center.state;
+        row.insertCell(3).textContent = center.country;
+        row.insertCell(4).textContent = center.location;
+
+        const actionCell = row.insertCell(5);
+        const mapButton = document.createElement("button");
+        mapButton.textContent = "View on Map";
+        mapButton.onclick = () => {
+            window.open(`map.html?latitude=${center.latitude}&longitude=${center.longitude}`, '_blank');
+};
+        actionCell.appendChild(mapButton);
+    });
+}
+document.getElementById("findCenters").addEventListener("click", displayCenters);
+document.getElementById("country").addEventListener("change", updateStateOptions);
+</script>
+</body>
+</html>

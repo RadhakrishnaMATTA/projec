@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map Without API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        .top-left-btn {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .top-left-btn:hover {
+            background-color: #0056b3;
+        }
+        iframe {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Map Viewer</h1>
+    <a href="s.html" class="top-left-btn">Nearby Blood Donation Center</a>
+    <label for="stateSelect">Choose a Location:</label>
+    <select id="stateSelect">
+        <option value="karnataka">Karnataka</option>
+        <option value="mumbai">Mumbai</option>
+        <option value="delhi">Delhi</option>
+        <option value="kerala">Kerala</option>
+        <option value="telangana">Telangana</option>
+        <option value="maharashtra">Maharashtra</option>
+        <option value="tamilnadu">Tamil Nadu</option>
+        <option value="gujarat">Gujarat</option>
+        <option value="california">California</option>
+        <option value="newyork">New York</option>
+        <option value="england">England</option>
+        <option value="ontario">Ontario</option>
+        <option value="quebec">Quebec</option>
+        <option value="newsouthwales">New South Wales</option>
+        <option value="victoria">Victoria</option>
+    </select>
+    <button onclick="updateMap()">Show Map</button>
+
+    <h2 id="stateName">Karnataka Location</h2>
+    <iframe 
+        id="mapFrame"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31225865.30496045!2d68.17664529999999!3d12.5703818!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1670b992f607%3A0xf5219b22bb18295!2sKarnataka!5e0!3m2!1sen!2sin!4v1691937423897!5m2!1sen!2sin" 
+        width="600" 
+        height="450" 
+        style="border:0;" 
+        allowfullscreen="" 
+        loading="lazy" 
+        referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+
+    <script>
+        function updateMap() {
+            const stateSelect = document.getElementById("stateSelect");
+            const stateName = document.getElementById("stateName");
+            const mapFrame = document.getElementById("mapFrame");
+
+            // Map URLs for different locations
+            const mapUrls = {
+                karnataka: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31225865.30496045!2d68.17664529999999!3d12.5703818!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1670b992f607%3A0xf5219b22bb18295!2sKarnataka!5e0!3m2!1sen!2sin!4v1691937423897!5m2!1sen!2sin",
+                mumbai: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3768.6419883550296!2d72.87765541537196!3d19.075983687089774!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7ce26ad0a181b%3A0x4c22778a69c5164b!2sMumbai%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1691942089123!5m2!1sen!2sin",
+                delhi: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d224373.5042831367!2d76.84966194999999!3d28.6517178!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd040a933f35%3A0xdad77a8a4c4970b1!2sDelhi!5e0!3m2!1sen!2sin!4v1691942167893!5m2!1sen!2sin",
+                kerala: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1296347.3064559074!2d75.746594!3d10.8505159!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b0866f635999999%3A0x5e558c2b39f7f3c!2sKerala!5e0!3m2!1sen!2sin!4v1691942228453!5m2!1sen!2sin",
+                telangana: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31231696.932346698!2d68.1443187!3d17.1231846!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcc4f8b631fe39d%3A0x860254a4c18c9b0!2sTelangana!5e0!3m2!1sen!2sin!4v1691943058153!5m2!1sen!2sin",
+                maharashtra: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31710378.27377673!2d65.4657658!3d19.7514798!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c52c6d95b843%3A0xdefa4b6c6848cb49!2sMaharashtra!5e0!3m2!1sen!2sin!4v1691943162784!5m2!1sen!2sin",
+                tamilnadu: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31147392.12347755!2d73.1845008!3d11.1271225!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b01594ddc3b2f8f%3A0xe129c3c22909c5a2!2sTamil%20Nadu!5e0!3m2!1sen!2sin!4v1691943262221!5m2!1sen!2sin",
+                gujarat: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31519195.016552083!2d66.5700136!3d22.258652!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e84f08a19f4ed%3A0xa04fb95f6e4a1319!2sGujarat!5e0!3m2!1sen!2sin!4v1691943354923!5m2!1sen!2sin",
+                california: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31022129.865131267!2d-124.4820039!3d36.778261!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2cdb6f2068a65%3A0x909f23b5d32ecb1b!2sCalifornia!5e0!3m2!1sen!2sus!4v1691943453402!5m2!1sen!2sus",
+                newyork: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10763140.563937104!2d-79.76259!3d40.7127753!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25e47b1b0a573%3A0x6038bb4c861a50c7!2sNew%20York!5e0!3m2!1sen!2sus!4v1691943538492!5m2!1sen!2sus",
+                england: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12958264.138713057!2d-4.623025!3d52.855036!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487632f6a9999999%3A0x8e23757c220a9221!2sEngland!5e0!3m2!1sen!2sus!4v1691943621036!5m2!1sen!2sus",
+                ontario: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11515573.185295047!2d-86.2835329!3d51.253775!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4b5c50d50b34c1ad%3A0xa0a02b0e24e18d3e!2sOntario!5e0!3m2!1sen!2ca!4v1691943725877!5m2!1sen!2ca",
+                quebec: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11668484.759018527!2d-71.208187!3d52.939915!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4ccae7f60ab54451%3A0x1ff9f0e3627fe687!2sQuebec!5e0!3m2!1sen!2ca!4v1691943783188!5m2!1sen!2ca",
+                newsouthwales: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d22521535.90880393!2d149.0621559!3d-32.383709!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6b1210e40a68bde1%3A0x45f159c7cb0d3f7e!2sNew%20South%20Wales!5e0!3m2!1sen!2sus!4v1691943849264!5m2!1sen!2sus",
+                victoria: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12971008.234016358!2d139.491146!3d-37.813628!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d575d2b9b8b%3A0xb3f88c4412d7c21f!2sVictoria!5e0!3m2!1sen!2sus!4v1691943895673!5m2!1sen!2sus"
+            };
+
+            const selectedState = stateSelect.value;
+
+            // Update the state name and the map URL
+            stateName.innerText = selectedState.charAt(0).toUpperCase() + selectedState.slice(1) + " Location";
+            mapFrame.src = mapUrls[selectedState];
+        }
+    </script>
+</body>
+</html>
